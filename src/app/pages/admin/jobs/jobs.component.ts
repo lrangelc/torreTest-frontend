@@ -1,18 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'fury-jobs',
-//   templateUrl: './jobs.component.html',
-//   styleUrls: ['./jobs.component.scss']
-// })
-// export class JobsComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit(): void {
-//   }
-
-// }
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CustomersService } from './../../../shared/services/customers.service';
 
@@ -26,13 +11,16 @@ import { catchError, filter } from 'rxjs/operators';
 import { ListColumn } from '../../../../@fury/shared/list/list-column.model';
 // import { CustomerCreateUpdateComponent } from './../customer-list/customer-create-update/customer-create-update.component';
 // import { CustomerAddPaymentComponent } from './../customer-list/customer-add-payment/customer-add-payment.component';
-import { Customer } from './customer.model';
 import { fadeInRightAnimation } from '../../../../@fury/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../../@fury/animations/fade-in-up.animation';
 import { CustomerEventsService } from 'src/app/shared/services/customer-events.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PaymentsService } from 'src/app/shared/services/payments.service';
 import { handleHttpResponseError } from './../../../utils/handleHttpResponseError';
+
+import { JobsService } from 'src/app/shared/services/jobs.service';
+import { Job } from 'src/app/models/job.model';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'fury-jobs',
@@ -48,9 +36,9 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
    * Simulating a service with HTTP that returns Observables
    * You probably want to remove this and do all requests in a service with HTTP
    */
-  subject$: ReplaySubject<any[]> = new ReplaySubject<Customer[]>(1);
-  data$: Observable<Customer[]> = this.subject$.asObservable();
-  customers: Customer[];
+  subject$: ReplaySubject<Job[]> = new ReplaySubject<Job[]>(1);
+  data$: Observable<Job[]> = this.subject$.asObservable();
+  customers: Job[];
   businessID = '';
 
   @Input()
@@ -66,41 +54,48 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     // },
 
     {
-      name: 'Tax Id',
-      property: 'taxId',
+      name: 'Id',
+      property: 'id',
       visible: true,
       isModelProperty: true,
     },
     {
-      name: 'Tax Name',
-      property: 'taxName',
+      name: 'Objective',
+      property: 'objective',
       visible: true,
       isModelProperty: true,
     },
     {
-      name: 'Name',
-      property: 'name',
-      visible: false,
-      isModelProperty: true,
-    },
-    {
-      name: 'ip',
-      property: 'ip',
+      name: 'Skills',
+      property: 'skills',
       visible: true,
       isModelProperty: true,
     },
-    {
-      name: 'Service Cost',
-      property: 'serviceCost',
-      visible: true,
-      isModelProperty: true,
-    },
-    {
-      name: 'Service Status',
-      property: 'serviceStatus',
-      visible: true,
-      isModelProperty: true,
-    },
+    // {
+    //   name: 'Name',
+    //   property: 'name',
+    //   visible: false,
+    //   isModelProperty: true,
+    // },
+    // {
+    //   name: 'ip',
+    //   property: 'ip',
+    //   visible: true,
+    //   isModelProperty: true,
+    // },
+    // {
+    //   name: 'Service Cost',
+    //   property: 'serviceCost',
+    //   visible: true,
+    //   isModelProperty: true,
+    // },
+    // {
+    //   name: 'Service Status',
+    //   property: 'serviceStatus',
+    //   visible: true,
+    //   isModelProperty: true,
+    // },
+
     // {
     //   name: 'Street',
     //   property: 'comments',
@@ -120,10 +115,15 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     //   visible: false,
     //   isModelProperty: true,
     // },
-    { name: 'Actions', property: 'actions', visible: true },
+    {
+      name: 'Actions',
+      property: 'actions',
+      visible: true,
+      isModelProperty: false,
+    },
   ] as ListColumn[];
   pageSize = 10;
-  dataSource: MatTableDataSource<Customer> | null;
+  dataSource: MatTableDataSource<Job> | null;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -133,10 +133,24 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private customerEventsService: CustomerEventsService,
     private authService: AuthService,
-    private paymentsService: PaymentsService
+    private paymentsService: PaymentsService,
+    private jobsService: JobsService
   ) {}
 
+  searchTerm = '';
+  jobs$: Job[];
+
+  async onSearchTermChange(): Promise<void> {
+    // if (this.searchTerm.length > 0) {
+    this.jobsService.sendPostRequest('data').subscribe((res) => {
+      return this.subject$.next(res.results);
+    });
+    // }
+  }
+
   ngOnInit(): void {
+    // this.jobsService.search(this.searchTerm).subscribe();
+
     try {
       this.businessID = localStorage.getItem('businessID');
       this.user = this.authService.getUser();
@@ -312,8 +326,16 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onFilterChange(value: any) {
+  async onFilterChange(value: any) {
+    console.log(typeof value);
+
     try {
+      if (typeof value === 'object') {
+        await this.onSearchTermChange();
+      }
+      if (value.length === 0) {
+        this.dataSource = null;
+      }
       if (!this.dataSource) {
         return;
       }
@@ -346,7 +368,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     //         // );
     //         // this.customers[index] = new Customer(newPayment);
     //         // this.subject$.next(this.customers);
-
     //         this.paymentsService.addPaymentCustomer(
     //           this.businessID,
     //           this.user.uid,

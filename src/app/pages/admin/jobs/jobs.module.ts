@@ -1,13 +1,3 @@
-// import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-
-// import { JobsRoutingModule } from './jobs-routing.module';
-
-// @NgModule({
-//   declarations: [],
-//   imports: [CommonModule, JobsRoutingModule],
-// })
-// export class JobsModule {}
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -35,8 +25,6 @@ import { JobsComponent } from './jobs.component';
     // Core
     ListModule,
     BreadcrumbsModule,
-    CustomerCreateUpdateModule,
-    CustomerAddPaymentModule,
   ],
 })
 export class JobsModule {}
