@@ -1,0 +1,11 @@
+steps:
+- name: 'node'
+  entrypoint: 'yarn'
+  args: ['install']
+- name: 'node'
+  entrypoint: 'yarn'
+  args: ['build']
+# Build the container image
+- name: 'docker'
+  args: ['build','.']
+timeout: 1200s

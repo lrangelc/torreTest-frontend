@@ -1,0 +1,168 @@
+{
+  "error": {
+    "form": {
+      "required": "Campo requerido",
+      "email": "Este no parece ser un email valido",
+      "minlength": "No has alcanzado el minimo de caracteres necesarios",
+      "unknown": "Ha ocurrido un error",
+      "notMatch": "Los campos no coinciden"
+    },
+    "firebase": {
+      "auth/wrong-password": "Usuario invalido",
+      "auth/user-not-found": "Usuario inexistente",
+      "auth/too-many-requests": "Demasiadas solicitudes"
+    },
+    "product": {
+      "user_404": "Usuario inexistente"
+    },
+    "hola": {
+      "adios": "cool"
+    }
+  },
+  "formats": {
+    "date": {
+      "short": "dd/MM/yyyy",
+      "large": "dd/MM/yyyy HH:mm:ss zzz",
+      "specific": "dd MMM. yyyy, hh:mm aa"
+    }
+  },
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "remember-me": "Recuérdame",
+  "sign-in": "Iniciar Sesión",
+  "forgot-password": "¿Olvidaste tú contraseña?",
+  "dont-have-an-account": "¿No tienes una cuenta?",
+  "click-here-to-create-one": "Haz clic aquí para crear una",
+  "click-the-eye-to-toggle-visibility": "Haz clic en el ojo para alternar la visibilidad",
+  "login": {
+    "title": "Iniciar Sesión",
+    "button": "Ingresar",
+    "passwordreset": "¿Olvidaste tú contraseña?",
+    "form": {
+      "fields": {
+        "email": {
+          "label": "Correo electrónico",
+          "placeholder": "test@test.com",
+          "message-error": "Necesitamos una dirección de correo electrónico para iniciar sesión"
+        },
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "********",
+          "message-error": "Necesitamos una contraseña para iniciar sesión"
+        }
+      },
+      "actions": {}
+    }
+  },
+  "invoice": {
+    "confirm": {
+      "title": "¿Esta seguro de emitir esta factura electrónica por",
+      "content": "Esta operación es irreversible, usted emitirá una factura por",
+      "cancelText": "Salir",
+      "submitText": "Emitir"
+    },
+    "notification": {
+      "firstMessage": "¡Factura electrónica",
+      "endMessage": "emitida!",
+      "notAuth": "No estás autenticado, para generar un documento",
+      "invalidNit": "Este NIT no es válido, ingrese uno correcto y vuelva a intentar",
+      "specialInvoiceError": "No es posible emitir una factura especial a CONSUMIDOR FINAL.",
+      "alreadyCancelled": "El recurso está bloqueado. El documento ya está cancelado.",
+      "error": "Algo salió mal. Inténtalo de nuevo más tarde."
+    },
+    "createFormLabels": {
+      "title": "Emitir Factura",
+      "receiverTaxId": "NIT",
+      "name": "Nombre",
+      "address": "Dirección",
+      "documentType": "Tipo de documento",
+      "quantity": "Cantidad",
+      "description": "Descripción",
+      "line": "Línea",
+      "totalLine": "Total Línea",
+      "deleteLine": "Eliminar Línea",
+      "addLine": "Añadir Línea",
+      "total": "TOTAL",
+      "submit": "Emitir",
+      "tgAddress": "29 calle 16-93 zona 12 Colonia Santa Rosa 2",
+      "invalidNit": "El NIT no es válido",
+      "invalidDecimal": "Total inválido"
+    },
+    "cancelLabels": {
+      "noDocument": "No existe el documento",
+      "title": "Anular documento",
+      "type": "Tipo",
+      "serie": "Serie",
+      "number": "No",
+      "authorization": "Autorización",
+      "date": "Fecha de emisión",
+      "emailSender": "Envía el comprobante de anulación por correo electrónico",
+      "reasonLabel": "¿Cuál es el motivo de la anulación?",
+      "reasonPlaceHolder": "Escribe acá el motivo de la anulación.",
+      "submitText": "Anular",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "ejemplo@gmail.com",
+      "reason": "Motivo de anulación",
+      "alreadyCancelled": "El recurso está bloqueado. El documento ya está cancelado.",
+      "confirm": {
+        "title": "¿Está seguro de anular esta factura?",
+        "content": "Esta operación es irreversible, usted anulará esta factura para siempre.",
+        "cancelText": "Salir",
+        "submitText": "Anular"
+      }
+    },
+    "type": {
+      "invoice": "Factura regular",
+      "specialInvoice": "Factura especial"
+    }
+  },
+  "passwordReset": {
+    "title": "Recuperar Contraseña",
+    "subtitle": "Ingresa tú dirección de correo electrónico y te envíaremos un mensaje para que la reinicies",
+    "button": "Recuperar",
+    "form": {
+      "fields": {
+        "email": {
+          "label": "Correo electrónico",
+          "placeholder": "test@test.com"
+        }
+      },
+      "actions": {
+        "submit": "Hemos enviado un correo para que reinicies la contraseña"
+      }
+    }
+  },
+  "fel-token": {
+    "creationdate": "Fecha de Creación: {{creationDate}}",
+    "thistokenwillexpirein": "Este token vencerá en",
+    "month": "mes",
+    "months": "meses",
+    "anditwillupdateautomatically": "y se actualizará automáticamente",
+    "generatenewtoken": "Generar Nuevo Token",
+    "waitingfornewtoken": "Esperando Nuevo Token"
+  },
+  "document": {
+    "invoice": "Factura electrónica",
+    "special_invoice": "Factura electrónica especial",
+    "credit_note": "Nota de crédito",
+    "debit_note": "Nota de débito",
+    "submited_at": "Emitido el",
+    "type": "Tipo",
+    "status": "Estado",
+    "active": "Activo",
+    "cancelled": "Cancelado",
+    "receiver_data": "Datos del comprador",
+    "name": "Nombre",
+    "amount": "Monto",
+    "history": "Historial",
+    "options": "Opciones",
+    "cancel_bill": "Anular factura",
+    "emit_credit_note": "Emitir nota de crédito",
+    "emit_debit_note": "Emitir nota de débito",
+    "total": "Total",
+    "base": "Base",
+    "serie": "Serie",
+    "number": "No",
+    "authorization": "Autorización"
+  }
+}

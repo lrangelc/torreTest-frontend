@@ -1,0 +1,64 @@
+<div mat-dialog-title>Add new payment</div>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <div class="person">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <mat-form-field fxFlex>
+          <mat-label>TAX Id</mat-label>
+          <input type="text" formControlName="taxId" matInput required />
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>TAX Name</mat-label>
+          <input type="text" formControlName="taxName" matInput required />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Bank Account</mat-label>
+
+        <mat-select required formControlName="bankAccount" (selectionChange)="selectedBankAccount($event)">
+          <mat-option
+            *ngFor="let bankAccount of bankAccounts$"
+            [value]="bankAccount.id"
+          >
+            {{ bankAccount.description }}
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Document Number</mat-label>
+        <input type="text" formControlName="documentNumber" matInput required />
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Amount</mat-label>
+        <input type="text" formControlName="amount" matInput required />
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="documentDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button *ngIf="isUpdateMode()" mat-button [disabled]="!form.valid">
+      ADD PAYMENT
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "torreTest": {
+      "hosting": {
+        "fury": [
+          "torreTest"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "torretest-3df18"
+  }
+}
