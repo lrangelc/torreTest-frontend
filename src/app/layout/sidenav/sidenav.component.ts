@@ -15,16 +15,20 @@ import { ThemeService } from '../../../@fury/services/theme.service';
 
 import { AuthService } from './../../core/services/auth.service';
 
+import { tap } from 'rxjs/operators';
+
 @Component({
   selector: 'fury-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-  sidenavUserVisible$ = this.themeService.config$.pipe(
-    map((config) => config.sidenavUserVisible)
-  );
-
+  // sidenavUserVisible$ = this.themeService.config$.pipe(
+  //   map((config) => config.sidenavUserVisible)
+  // );
+  // sidenavUserVisible$ = this.authService.isLoggedIn();
+  // user = this.authService.isLoggedIn();
+  sidenavUserVisible$ = false;
   @Input()
   @HostBinding('class.collapsed')
   collapsed: boolean;
@@ -34,7 +38,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   expanded: boolean;
 
   items$: Observable<SidenavItem[]>;
-  user;
+  user: { displayName; email };
 
   constructor(
     private router: Router,
@@ -49,7 +53,51 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.sidenavService.sortRecursive(items, 'position')
       )
     );
-    this.user = this.authService.getUser();
+    if (this.authService.hasUser()) {
+      // this.user = this.authService.getUser();
+    } else {
+    }
+
+    // this.user = this.authService.isLoggedIn();
+    // this.doSomething2();
+    this.doSomething();
+  }
+
+  async doSomething() {
+    const user = await this.authService.isLoggedIn();
+    if (user) {
+      // do something
+      this.user = user;
+      this.sidenavUserVisible$ = true;
+    } else {
+      // do something else
+      this.sidenavUserVisible$ = false;
+    }
+  }
+
+  doSomething2() {
+    this.authService
+      .isLoggedIn2()
+      .pipe(
+        tap((user) => {
+          if (user) {
+            // do something
+            // if (user.displayName) {
+            //   this.user.displayName = user.displayName;
+            // }
+            // if (user.email) {
+            //   this.user.email = user.email;
+            // }
+            this.user = user;
+            this.sidenavUserVisible$ = true;
+          } else {
+            // this.user.displayName = '';
+            // this.user.email = '';
+            this.sidenavUserVisible$ = false;
+          }
+        })
+      )
+      .subscribe();
   }
 
   toggleCollapsed() {

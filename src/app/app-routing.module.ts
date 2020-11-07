@@ -42,7 +42,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [AdminGuard],
+    // canActivate: [AdminGuard],
     component: LayoutComponent,
     children: [
       {

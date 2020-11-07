@@ -57,16 +57,28 @@ export class AppComponent {
           customClass: 'first-subheading',
         },
         {
-          name: 'Dashboard',
+          name: 'Torre',
           routeOrFunction: '/',
           icon: 'dashboard',
           position: 2,
           pathMatchExact: true,
         },
         {
+          name: 'Search Jobs',
+          routeOrFunction: '/admin/jobs',
+          icon: 'mouse',
+          position: 3,
+        },
+        {
+          name: 'Search People',
+          routeOrFunction: '/admin/people',
+          icon: 'people',
+          position: 4,
+        },
+        {
           name: 'Customers',
           icon: 'view_compact',
-          position: 3,
+          position: 5,
           subItems: [
             {
               name: 'Customer List',

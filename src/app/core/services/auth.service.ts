@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { handleHttpResponseError } from 'src/app/utils/handleHttpResponseError';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,14 @@ export class AuthService {
     } catch (err) {
       handleHttpResponseError(err);
     }
+  }
+
+  isLoggedIn() {
+    return this.angularFireAuth.authState.pipe(first()).toPromise();
+  }
+
+  isLoggedIn2() {
+    return this.angularFireAuth.authState.pipe(first());
   }
 
   getUser() {

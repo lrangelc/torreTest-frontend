@@ -9,8 +9,9 @@ import { AuthService } from './../../../core/services/auth.service';
   styleUrls: ['./toolbar-user.component.scss'],
 })
 export class ToolbarUserComponent implements OnInit {
+  sidenavUserVisible$ = false;
   isOpen: boolean;
-  user;
+  user: { displayName; email };
 
   constructor(
     private auth: AuthService,
@@ -19,7 +20,20 @@ export class ToolbarUserComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user = this.authService.getUser();
+    // this.user = this.authService.getUser();
+    this.doSomething();
+  }
+
+  async doSomething() {
+    const user = await this.authService.isLoggedIn();
+    if (user) {
+      // do something
+      this.user = user;
+      this.sidenavUserVisible$ = true;
+    } else {
+      // do something else
+      this.sidenavUserVisible$ = false;
+    }
   }
 
   toggleDropdown() {
