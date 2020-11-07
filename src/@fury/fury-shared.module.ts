@@ -17,11 +17,10 @@ import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { PageLayoutModule } from './shared/page-layout/page-layout.module';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [],
   exports: [
     BreadcrumbsModule,
@@ -30,6 +29,7 @@ import { PageLayoutModule } from './shared/page-layout/page-layout.module';
     SidebarModule,
     RouterModule,
     PageLayoutModule,
+    MatChipsModule,
 
     // External
     FlexLayoutModule,
@@ -42,8 +42,7 @@ import { PageLayoutModule } from './shared/page-layout/page-layout.module';
     MatRadioModule,
     MatMenuModule,
     FontAwesomeModule,
-    ScrollingModule
-  ]
+    ScrollingModule,
+  ],
 })
-export class FurySharedModule {
-}
+export class FurySharedModule {}

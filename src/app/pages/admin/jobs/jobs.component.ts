@@ -30,12 +30,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
   user: firebase.User;
-  // customers;
+  skills: string[] = ['Fullstack Development'];
 
-  /**
-   * Simulating a service with HTTP that returns Observables
-   * You probably want to remove this and do all requests in a service with HTTP
-   */
   subject$: ReplaySubject<Job[]> = new ReplaySubject<Job[]>(1);
   data$: Observable<Job[]> = this.subject$.asObservable();
   customers: Job[];
@@ -56,7 +52,7 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       name: 'Id',
       property: 'id',
-      visible: true,
+      visible: false,
       isModelProperty: true,
     },
     {
@@ -67,7 +63,13 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     },
     {
       name: 'Skills',
-      property: 'skills',
+      property: 'skillX',
+      visible: true,
+      isModelProperty: true,
+    },
+    {
+      name: 'organizations',
+      property: 'organizationX',
       visible: true,
       isModelProperty: true,
     },
@@ -142,8 +144,21 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async onSearchTermChange(): Promise<void> {
     // if (this.searchTerm.length > 0) {
-    this.jobsService.sendPostRequest('data').subscribe((res) => {
-      return this.subject$.next(res.results);
+    const skills = this.skills || [];
+    this.jobsService.sendPostRequest(skills).subscribe((res) => {
+      const listDocuments: any[] = [];
+      for (const iterator of res.results) {
+        let document: {} = {};
+        document = iterator;
+
+        const skillX = iterator.skills.map((a) => a.name + ' ');
+        const organizationX = iterator.organizations.map((a) => a.name + ' ');
+
+        document = { ...document, skillX, organizationX };
+        listDocuments.push(document);
+      }
+
+      return this.subject$.next(listDocuments);
     });
     // }
   }
@@ -330,12 +345,12 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(typeof value);
 
     try {
-      if (typeof value === 'object') {
-        await this.onSearchTermChange();
-      }
-      if (value.length === 0) {
-        this.dataSource = null;
-      }
+      // if (typeof value === 'object') {
+      //   await this.onSearchTermChange();
+      // }
+      // if (value.length === 0) {
+      //   this.dataSource = null;
+      // }
       if (!this.dataSource) {
         return;
       }
