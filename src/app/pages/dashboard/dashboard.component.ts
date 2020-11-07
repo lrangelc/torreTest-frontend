@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   private static isInitialLoad = true;
   salesData$: Observable<ChartData>;
   totalSalesOptions: BarChartWidgetOptions = {
-    title: 'Total Sales',
+    title: 'Total Jobs',
     gain: 16.3,
     subTitle: 'compared to last month',
     background: '#3F51B5',
@@ -55,33 +55,33 @@ export class DashboardComponent implements OnInit {
   };
   salesSummaryData$: Observable<ChartData>;
   salesSummaryOptions: SalesSummaryWidgetOptions = {
-    title: 'Sales Summary',
-    subTitle: 'Compare Sales by Time',
+    title: 'Jobs Summary',
+    subTitle: 'Compare Jobs by Time',
     gain: 37.2
   };
   top5CategoriesData$: Observable<ChartData>;
   top5CategoriesOptions: DonutChartWidgetOptions = {
     title: 'Top Categories',
-    subTitle: 'Compare Sales by Category'
+    subTitle: 'Compare Jobs by Category'
   };
   audienceOverviewOptions: AudienceOverviewWidgetOptions[] = [];
   recentSalesData$: Observable<ChartData>;
   recentSalesOptions: RecentSalesWidgetOptions = {
-    title: 'Recent Sales',
+    title: 'Recent Jobs',
     subTitle: 'See who bought what in realtime'
   };
   recentSalesTableOptions = {
     pageSize: 5,
     columns: [
-      { name: 'Product', property: 'name', visible: true, isModelProperty: true },
-      { name: '$ Price', property: 'price', visible: true, isModelProperty: true },
+      { name: 'Jobs', property: 'name', visible: true, isModelProperty: true },
+      { name: '$ Amount', property: 'price', visible: true, isModelProperty: true },
       { name: 'Time ago', property: 'timestamp', visible: true, isModelProperty: true },
     ]
   };
   recentSalesTableData$: Observable<any[]>;
   advancedPieChartOptions: AdvancedPieChartWidgetOptions = {
-    title: 'Sales by country',
-    subTitle: 'Top 3 countries sold 34% more items this month\n'
+    title: 'Jobs by country',
+    subTitle: 'Top 3 countries offer jobs 34% more items this month\n'
   };
   advancedPieChartData$: Observable<ChartData>;
   private _realtimeUsersDataSubject = new ReplaySubject<RealtimeUsersWidgetData>(30);

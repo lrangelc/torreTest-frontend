@@ -39,16 +39,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   columns: ListColumn[] = [
-    // { name: 'Checkbox', property: 'checkbox', visible: false },
-    // { name: 'Image', property: 'image', visible: false },
-    // { name: 'Name', property: 'name', visible: true, isModelProperty: true },
-    // {
-    //   name: 'First Name',
-    //   property: 'taxId',
-    //   visible: true,
-    //   isModelProperty: true,
-    // },
-
     {
       name: 'Id',
       property: 'id',
@@ -73,50 +63,24 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
       visible: true,
       isModelProperty: true,
     },
-    // {
-    //   name: 'Name',
-    //   property: 'name',
-    //   visible: false,
-    //   isModelProperty: true,
-    // },
-    // {
-    //   name: 'ip',
-    //   property: 'ip',
-    //   visible: true,
-    //   isModelProperty: true,
-    // },
-    // {
-    //   name: 'Service Cost',
-    //   property: 'serviceCost',
-    //   visible: true,
-    //   isModelProperty: true,
-    // },
-    // {
-    //   name: 'Service Status',
-    //   property: 'serviceStatus',
-    //   visible: true,
-    //   isModelProperty: true,
-    // },
-
-    // {
-    //   name: 'Street',
-    //   property: 'comments',
-    //   visible: false,
-    //   isModelProperty: true,
-    // },
-    // {
-    //   name: 'Zipcode',
-    //   property: 'email',
-    //   visible: false,
-    //   isModelProperty: true,
-    // },
-    // { name: 'City', property: 'seller', visible: false, isModelProperty: true },
-    // {
-    //   name: 'Phone',
-    //   property: 'phone',
-    //   visible: false,
-    //   isModelProperty: true,
-    // },
+    {
+      name: 'Currency',
+      property: 'currency',
+      visible: true,
+      isModelProperty: true,
+    },
+    {
+      name: 'min Amount',
+      property: 'minAmount',
+      visible: true,
+      isModelProperty: true,
+    },
+    {
+      name: 'max Amount',
+      property: 'maxAmount',
+      visible: true,
+      isModelProperty: true,
+    },
     {
       name: 'Actions',
       property: 'actions',
@@ -141,27 +105,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchTerm = '';
   jobs$: Job[];
-
-  async onSearchTermChange(): Promise<void> {
-    // if (this.searchTerm.length > 0) {
-    const skills = this.skills || [];
-    this.jobsService.sendPostRequest(skills).subscribe((res) => {
-      const listDocuments: any[] = [];
-      for (const iterator of res.results) {
-        let document: {} = {};
-        document = iterator;
-
-        const skillX = iterator.skills.map((a) => a.name + ' ');
-        const organizationX = iterator.organizations.map((a) => a.name + ' ');
-
-        document = { ...document, skillX, organizationX };
-        listDocuments.push(document);
-      }
-
-      return this.subject$.next(listDocuments);
-    });
-    // }
-  }
 
   ngOnInit(): void {
     // this.jobsService.search(this.searchTerm).subscribe();
@@ -190,6 +133,33 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     } catch (err) {
       handleHttpResponseError(err);
     }
+  }
+
+  async onSearchTermChange(): Promise<void> {
+    const skills = this.skills || [];
+    this.jobsService.sendPostRequest(skills).subscribe((res) => {
+      const listDocuments: any[] = [];
+      for (const iterator of res.results) {
+        let document: {} = {};
+        let minAmount = 0;
+        let maxAmount = 0;
+        let currency = 'USD$';
+        document = iterator;
+
+        const skillX = iterator.skills.map((a) => a.name + ' ');
+        const organizationX = iterator.organizations.map((a) => a.name + ' ');
+        if (iterator.compensation.data) {
+          minAmount = iterator.compensation.data.minAmount || 0;
+          maxAmount = iterator.compensation.data.maxAmount || 0;
+          currency = iterator.compensation.data.currency || 'USD$';
+        }
+
+        document = { ...document, skillX, organizationX, minAmount, maxAmount };
+        listDocuments.push(document);
+      }
+
+      return this.subject$.next(listDocuments);
+    });
   }
 
   async getCustomers() {
