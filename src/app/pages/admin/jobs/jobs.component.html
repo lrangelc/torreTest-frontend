@@ -4,14 +4,16 @@
   </fury-page-layout-header>
 
   <fury-page-layout-content [@fadeInUp]>
-    <input [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()" />
-
     <fury-list
       name="Jobs"
       [columns]="columns"
       (filterChange)="onFilterChange($event)"
-      (keydown.enter)="onFilterChange($event)"
+      placeholder="cool"
     >
+      <button mat-raised-button color="accent" (click)="onSearchTermChange()">
+        Search
+      </button>
+      <fury-chips [skills]="skills"></fury-chips>
       <!-- <div class="actions">
         <button
           class="create"
