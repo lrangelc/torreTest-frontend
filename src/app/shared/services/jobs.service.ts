@@ -15,9 +15,16 @@ export class JobsService {
     return this.filteredJobs$.asObservable();
   }
 
-  sendPostRequest(data: any): Observable<any> {
+  sendPostRequest(skills: any): Observable<any> {
+    let q = '';
+    if (skills.length > 0) {
+      const map1 = skills.map((x) => `skill%2Frole%3A${x.toLowerCase()}%20and%20`);
+      q = `/?q=${map1}`;
+    }
+    q = q.replace(/\,/g, '');
+
     return this.httpClient.post<any>(
-      'https://search.torre.co/opportunities/_search/?q=skill%2Frole%3Aios',
+      `https://search.torre.co/opportunities/_search${q}`,
       { title: 'Angular POST Request Example' }
     );
   }
