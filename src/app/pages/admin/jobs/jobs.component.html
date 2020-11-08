@@ -99,21 +99,9 @@
                 <mat-icon>edit</mat-icon>
                 Apply
               </button>
-              <button (click)="activateCustomer(row)" mat-menu-item>
-                <mat-icon class="material-icons color_green">wifi</mat-icon>
-                Activate temporarily
-              </button>
-              <button (click)="blockServiceCustomer(row)" mat-menu-item>
-                <mat-icon class="material-icons color_red">wifi_off</mat-icon>
-                Block service
-              </button>
-              <button (click)="addPaymentCustomer(row)" mat-menu-item>
-                <mat-icon>payment</mat-icon>
-                Add new payment
-              </button>
-              <button (click)="addPrepaymentCustomer(row)" mat-menu-item>
-                <mat-icon>payments</mat-icon>
-                Prepayment
+              <button (click)="viewJob(row)" mat-menu-item>
+                <mat-icon>remove_red_eye</mat-icon>
+                View
               </button>
             </mat-menu>
           </td>
@@ -121,7 +109,7 @@
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
         <tr
-          (click)="updateCustomer(row)"
+          (click)="viewJob(row)"
           *matRowDef="let row; columns: visibleColumns"
           class="clickable route-animations-elements"
           mat-row

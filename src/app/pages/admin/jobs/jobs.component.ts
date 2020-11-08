@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, filter } from 'rxjs/operators';
 import { ListColumn } from '../../../../@fury/shared/list/list-column.model';
-// import { CustomerCreateUpdateComponent } from './../customer-list/customer-create-update/customer-create-update.component';
+import { JobDetailComponent } from './job-detail/job-detail.component';
 // import { CustomerAddPaymentComponent } from './../customer-list/customer-add-payment/customer-add-payment.component';
 import { fadeInRightAnimation } from '../../../../@fury/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../../@fury/animations/fade-in-up.animation';
@@ -169,7 +169,14 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
           currency = iterator.compensation.data.currency || 'USD$';
         }
 
-        document = { ...document, skillX, organizationX, minAmount, maxAmount };
+        document = {
+          ...document,
+          skillX,
+          organizationX,
+          minAmount,
+          maxAmount,
+          currency,
+        };
         listDocuments.push(document);
       }
 
@@ -251,7 +258,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   applyJob(job: any) {
-    console.log(job);
     try {
       if (this.user) {
         let minAmount = 0;
@@ -277,37 +283,45 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.router.navigate(['/login'], { queryParams: { jobID: job.id } });
       }
-      // this.dialog
-      //   .open(CustomerCreateUpdateComponent, {
-      //     data: customer2,
-      //   })
-      //   .afterClosed()
-      //   .subscribe((customer) => {
-      //     if (customer) {
-      //       const index = this.customers.findIndex(
-      //         (existingCustomer) => existingCustomer.id === customer.id
-      //       );
-      //       this.customers[index] = new Customer(customer);
-      //       this.subject$.next(this.customers);
-      //       this.customersService.updateCustomer2(this.user.uid, customer.id, {
-      //         taxId: customer.taxId,
-      //         taxName: customer.taxName,
-      //         name: customer.name,
-      //         email: customer.email,
-      //         generateInvoice: customer.generateInvoice,
-      //         serviceCost: customer.serviceCost,
-      //         dateOfService: customer.dateOfService,
-      //         ip: customer.ip,
-      //         MB: customer.MB,
-      //         phone: customer.phone,
-      //         address: customer.address,
-      //         instalationDate: customer.instalationDate,
-      //         comments: customer.comments,
-      //         mainRouterID: customer.mainRouterID,
-      //         mainRouterName: customer.mainRouterName,
-      //       });
-      //     }
-      //   }, catchError(handleHttpResponseError));
+    } catch (err) {
+      handleHttpResponseError(err);
+    }
+  }
+
+  viewJob(jobRecord: any) {
+    try {
+      this.dialog
+        .open(JobDetailComponent, {
+          data: jobRecord,
+        })
+        .afterClosed()
+        .subscribe((job) => {
+          if (job) {
+            this.applyJob(job);
+            // const index = this.customers.findIndex(
+            //   (existingCustomer) => existingCustomer.id === customer.id
+            // );
+            // this.customers[index] = new Customer(customer);
+            // this.subject$.next(this.customers);
+            // this.customersService.updateCustomer2(this.user.uid, customer.id, {
+            //   taxId: customer.taxId,
+            //   taxName: customer.taxName,
+            //   name: customer.name,
+            //   email: customer.email,
+            //   generateInvoice: customer.generateInvoice,
+            //   serviceCost: customer.serviceCost,
+            //   dateOfService: customer.dateOfService,
+            //   ip: customer.ip,
+            //   MB: customer.MB,
+            //   phone: customer.phone,
+            //   address: customer.address,
+            //   instalationDate: customer.instalationDate,
+            //   comments: customer.comments,
+            //   mainRouterID: customer.mainRouterID,
+            //   mainRouterName: customer.mainRouterName,
+            // });
+          }
+        }, catchError(handleHttpResponseError));
     } catch (err) {
       handleHttpResponseError(err);
     }
