@@ -8,7 +8,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { handleHttpResponseError } from 'src/app/utils/handleHttpResponseError';
-import { Job } from './../../../../models/job.model';
+import { Job } from '../../../../models/job.model';
 import { MainRoutersService } from 'src/app/shared/services/main-routers.service';
 
 @Component({
@@ -48,27 +48,25 @@ export class JobDetailComponent implements OnInit {
       let minAmount = 0;
       let maxAmount = 0;
       let currency = 'USD$';
+      let location = '';
 
-      const skillX = this.defaults.skills.map((a) => a.name + ' ');
-      const organizationX = this.defaults.organizations.map(
-        (a) => a.name + ' '
+      const skillX = this.defaults.skillX.map((a) => a.name + ' ');
+      const organizationX = this.defaults.organizationX.map(
+        (a) => a
       );
-      if (this.defaults.compensation.data) {
-        minAmount = this.defaults.compensation.data.minAmount || 0;
-        maxAmount = this.defaults.compensation.data.maxAmount || 0;
-        currency = this.defaults.compensation.data.currency || 'USD$';
+      minAmount = this.defaults.minAmount || 0;
+      maxAmount = this.defaults.maxAmount || 0;
+      currency = this.defaults.currency || 'USD$';
+
+      if (this.defaults.locationX) {
+        location = this.defaults.locationX[0];
       }
-      const location = this.defaults.locations[0];
 
       this.form = this.fb.group({
-        // id: [JobDetailComponent.id++],
-        mainRouterID: new FormControl(this.defaults.mainRouterID, [
-          Validators.required,
-        ]),
         id: [this.defaults.id || ''],
         objective: [this.defaults.objective || ''],
         location: [location || ''],
-        skills: [this.defaults.skills],
+        skills: [skillX],
         organization: [organizationX || ''],
         currency: [currency || ''],
         // email: this.defaults.email || '',
@@ -126,8 +124,6 @@ export class JobDetailComponent implements OnInit {
       job.id = this.defaults.id;
       job.compensation = this.defaults.compensation;
       job.organizations = this.defaults.organizations;
-      job.skills = this.defaults.skills;
-      job.locations = this.defaults.locations;
 
       this.dialogRef.close(job);
     } catch (err) {

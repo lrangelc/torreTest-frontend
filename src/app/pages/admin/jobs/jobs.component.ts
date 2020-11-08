@@ -226,37 +226,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  createCustomer() {
-    // try {
-    //   this.dialog
-    //     .open(CustomerCreateUpdateComponent)
-    //     .afterClosed()
-    //     .subscribe((customer: Customer) => {
-    //       /**
-    //        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
-    //        */
-    //       if (customer) {
-    //         /**
-    //          * Here we are updating our local array.
-    //          * You would probably make an HTTP request here.
-    //          */
-    //         this.customers.unshift(new Customer(customer));
-    //         this.subject$.next(this.customers);
-    //         // this.customersService.createCustomer(
-    //         //   JSON.parse(JSON.stringify(customer))
-    //         // );
-    //         this.customersService.createCustomer(
-    //           this.user.uid,
-    //           customer,
-    //           this.businessID
-    //         );
-    //       }
-    //     }, catchError(handleHttpResponseError));
-    // } catch (err) {
-    //   handleHttpResponseError(err);
-    // }
-  }
-
   applyJob(job: any) {
     try {
       if (this.user) {
@@ -265,6 +234,7 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
         let currency = 'USD$';
 
         const skillX = job.skills.map((a) => a.name + ' ');
+        const locationX = job.locations.map((a) => a);
         const organizationX = job.organizations.map((a) => a.name + ' ');
         if (job.compensation.data) {
           minAmount = job.compensation.data.minAmount || 0;
@@ -274,8 +244,9 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.jobsService.applyJob(this.user.uid, job.id, {
           objective: job.objective,
-          organizationX: organizationX,
-          skillX: skillX,
+          organizationX,
+          skillX,
+          locationX,
           currency: currency,
           minAmount: minAmount,
           maxAmount: maxAmount,
@@ -298,28 +269,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe((job) => {
           if (job) {
             this.applyJob(job);
-            // const index = this.customers.findIndex(
-            //   (existingCustomer) => existingCustomer.id === customer.id
-            // );
-            // this.customers[index] = new Customer(customer);
-            // this.subject$.next(this.customers);
-            // this.customersService.updateCustomer2(this.user.uid, customer.id, {
-            //   taxId: customer.taxId,
-            //   taxName: customer.taxName,
-            //   name: customer.name,
-            //   email: customer.email,
-            //   generateInvoice: customer.generateInvoice,
-            //   serviceCost: customer.serviceCost,
-            //   dateOfService: customer.dateOfService,
-            //   ip: customer.ip,
-            //   MB: customer.MB,
-            //   phone: customer.phone,
-            //   address: customer.address,
-            //   instalationDate: customer.instalationDate,
-            //   comments: customer.comments,
-            //   mainRouterID: customer.mainRouterID,
-            //   mainRouterName: customer.mainRouterName,
-            // });
           }
         }, catchError(handleHttpResponseError));
     } catch (err) {
@@ -329,10 +278,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   deleteCustomer(customer: any) {
     try {
-      /**
-       * Here we are updating our local array.
-       * You would probably make an HTTP request here.
-       */
       this.customers.splice(
         this.customers.findIndex(
           (existingCustomer) => existingCustomer.id === customer.id
@@ -369,12 +314,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(typeof value);
 
     try {
-      // if (typeof value === 'object') {
-      //   await this.onSearchTermChange();
-      // }
-      // if (value.length === 0) {
-      //   this.dataSource = null;
-      // }
       if (!this.dataSource) {
         return;
       }
@@ -386,68 +325,5 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  addPaymentCustomer(customer: any) {
-    // try {
-    //   this.dialog
-    //     .open(CustomerAddPaymentComponent, {
-    //       data: customer,
-    //     })
-    //     .afterClosed()
-    //     .subscribe((newPayment) => {
-    //       /**
-    //        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
-    //        */
-    //       if (newPayment) {
-    //         /**
-    //          * Here we are updating our local array.
-    //          * You would probably make an HTTP request here.
-    //          */
-    //         // const index = this.customers.findIndex(
-    //         //   (existingCustomer) => existingCustomer.id === newPayment.customerID
-    //         // );
-    //         // this.customers[index] = new Customer(newPayment);
-    //         // this.subject$.next(this.customers);
-    //         this.paymentsService.addPaymentCustomer(
-    //           this.businessID,
-    //           this.user.uid,
-    //           newPayment.customerID,
-    //           {
-    //             taxId: newPayment.taxId,
-    //             taxName: newPayment.taxName,
-    //             bankAccountID: newPayment.bankAccount,
-    //             documentNumber: newPayment.documentNumber,
-    //             amount: Number(newPayment.amount),
-    //             documentDate: newPayment.documentDate,
-    //             bankAccountDescription: newPayment.bankAccountDescription,
-    //             description: 'DEPOSITO - TRANSFERENCIA',
-    //           }
-    //         );
-    //       }
-    //     }, catchError(handleHttpResponseError));
-    // } catch (err) {
-    //   handleHttpResponseError(err);
-    // }
-  }
-
-  addPrepaymentCustomer(customer: any) {}
-
   ngOnDestroy(): void {}
-
-  /**
-   * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
-   * We are simulating this request here.
-   */
-  // getData() {
-  //   return of(
-  //     ALL_IN_ONE_TABLE_DEMO_DATA.map((customer) => new Customer(customer))
-  //   );
-  // }
-
-  // deleteCustomer(data): Promise<void> {
-  //   return this.customersService.deleteCustomer(data);
-  // }
-
-  // markCompleted(data): Promise<void> {
-  //   return this.customersService.updateCustomer(data);
-  // }
 }
