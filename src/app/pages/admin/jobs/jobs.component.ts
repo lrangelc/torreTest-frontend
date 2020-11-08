@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CustomersService } from './../../../shared/services/customers.service';
 
 import { Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,17 +9,13 @@ import { Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, filter } from 'rxjs/operators';
 import { ListColumn } from '../../../../@fury/shared/list/list-column.model';
 import { JobDetailComponent } from './job-detail/job-detail.component';
-// import { CustomerAddPaymentComponent } from './../customer-list/customer-add-payment/customer-add-payment.component';
 import { fadeInRightAnimation } from '../../../../@fury/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../../@fury/animations/fade-in-up.animation';
-import { CustomerEventsService } from 'src/app/shared/services/customer-events.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { PaymentsService } from 'src/app/shared/services/payments.service';
 import { handleHttpResponseError } from './../../../utils/handleHttpResponseError';
 
 import { JobsService } from 'src/app/shared/services/jobs.service';
 import { Job } from 'src/app/models/job.model';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Component({
@@ -31,7 +26,7 @@ import { Router } from '@angular/router';
 })
 export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
   user: firebase.User;
-  skills: string[] = ['Fullstack Development'];
+  skills: string[] = [];
 
   subject$: ReplaySubject<Job[]> = new ReplaySubject<Job[]>(1);
   data$: Observable<Job[]> = this.subject$.asObservable();
@@ -97,11 +92,8 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private customersService: CustomersService,
     private dialog: MatDialog,
-    private customerEventsService: CustomerEventsService,
     private authService: AuthService,
-    private paymentsService: PaymentsService,
     private jobsService: JobsService
   ) {}
 
@@ -109,22 +101,9 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
   jobs$: Job[];
 
   ngOnInit(): void {
-    // this.jobsService.search(this.searchTerm).subscribe();
-
     try {
       this.businessID = localStorage.getItem('businessID');
       this.user = this.authService.getUser();
-      this.getCustomers();
-
-      // this.customersService.getCustomers().subscribe((res) => {
-      //   return this.subject$.next(res);
-      // });
-
-      // this.getData().subscribe((customers) => {
-      //   console.log('customers');
-      //   console.log(customers);
-      //   this.subject$.next(customers);
-      // });
 
       this.dataSource = new MatTableDataSource();
 
@@ -132,23 +111,10 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers = customers;
         this.dataSource.data = customers;
       }, catchError(handleHttpResponseError));
-      // this.doSomething();
     } catch (err) {
       handleHttpResponseError(err);
     }
   }
-
-  // async doSomething() {
-  //   const user = await this.authService.isLoggedIn();
-  //   if (user) {
-  //     // do something
-  //     this.user = user;
-  //     this.sidenavUserVisible$ = true;
-  //   } else {
-  //     // do something else
-  //     this.sidenavUserVisible$ = false;
-  //   }
-  // }
 
   async onSearchTermChange(): Promise<void> {
     const skills = this.skills || [];
@@ -159,6 +125,7 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
         let minAmount = 0;
         let maxAmount = 0;
         let currency = 'USD$';
+
         document = iterator;
 
         const skillX = iterator.skills.map((a) => a.name + ' ');
@@ -182,29 +149,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
 
       return this.subject$.next(listDocuments);
     });
-  }
-
-  async getCustomers() {
-    try {
-      return this.customersService.getCustomers().subscribe((res) => {
-        const listDocuments: any[] = [];
-        for (const iterator of res) {
-          let document: {} = {};
-          document = iterator.payload.doc.data();
-          document = { ...document, id: iterator.payload.doc.id };
-          listDocuments.push(document);
-          // xx.push(iterator.payload.doc.data());
-        }
-
-        return this.subject$.next(listDocuments);
-      }, catchError(handleHttpResponseError));
-
-      // const xx = await this.customersService.getCustomers2();
-      // console.log(xx);
-      // return this.subject$.next(xx);
-    } catch (err) {
-      handleHttpResponseError(err);
-    }
   }
 
   get visibleColumns() {
@@ -271,40 +215,6 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.applyJob(job);
           }
         }, catchError(handleHttpResponseError));
-    } catch (err) {
-      handleHttpResponseError(err);
-    }
-  }
-
-  deleteCustomer(customer: any) {
-    try {
-      this.customers.splice(
-        this.customers.findIndex(
-          (existingCustomer) => existingCustomer.id === customer.id
-        ),
-        1
-      );
-      this.subject$.next(this.customers);
-      this.customersService.deleteCustomer2(customer.id);
-    } catch (err) {
-      handleHttpResponseError(err);
-    }
-  }
-
-  activateCustomer(customer: any) {
-    try {
-      this.customerEventsService.activateCustomer(this.user.uid, customer.id);
-    } catch (err) {
-      handleHttpResponseError(err);
-    }
-  }
-
-  blockServiceCustomer(customer: any) {
-    try {
-      this.customerEventsService.blockServiceCustomer(
-        this.user.uid,
-        customer.id
-      );
     } catch (err) {
       handleHttpResponseError(err);
     }

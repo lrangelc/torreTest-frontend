@@ -13,7 +13,6 @@ import { fadeInRightAnimation } from '../../../../@fury/animations/fade-in-right
 import { fadeInUpAnimation } from '../../../../@fury/animations/fade-in-up.animation';
 import { AppliedJobsService } from 'src/app/shared/services/applied-jobs.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { PaymentsService } from 'src/app/shared/services/payments.service';
 import { handleHttpResponseError } from './../../../utils/handleHttpResponseError';
 import { JobDetailComponent } from './job-detail/job-detail.component';
 
@@ -81,7 +80,6 @@ export class AppliedJobsListComponent
     private appliedJobsService: AppliedJobsService,
     private dialog: MatDialog,
     private authService: AuthService,
-    private paymentsService: PaymentsService
   ) {}
 
   ngOnInit(): void {
