@@ -10,6 +10,7 @@ import { ListModule } from '../../../../@fury/shared/list/list.module';
 import { MaterialModule } from '../../../../@fury/shared/material-components.module';
 import { JobsComponent } from './jobs.component';
 import { ChipsComponent } from './chips/chips.component';
+import { JobDetailModule } from './job-detail/job-detail.module';
 
 @NgModule({
   declarations: [JobsComponent, ChipsComponent],
@@ -23,6 +24,7 @@ import { ChipsComponent } from './chips/chips.component';
     MaterialModule,
     FurySharedModule,
     ReactiveFormsModule,
+    JobDetailModule,
 
     // Core
     ListModule,
