@@ -69,12 +69,12 @@ export class AppComponent {
           icon: 'mouse',
           position: 3,
         },
-        {
-          name: 'Search People',
-          routeOrFunction: '/admin/people',
-          icon: 'people',
-          position: 4,
-        },
+        // {
+        //   name: 'Search People',
+        //   routeOrFunction: '/admin/people',
+        //   icon: 'people',
+        //   position: 4,
+        // },
       ]);
     } catch (err) {
       handleHttpResponseError(err);

@@ -28,10 +28,6 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 
-import { CustomersService } from './shared/services/customers.service';
-import { CustomerEventsService } from './shared/services/customer-events.service';
-import { BankAccountsService } from './shared/services/bank-accounts.service';
-import { PaymentsService } from './shared/services/payments.service';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import * as Sentry from '@sentry/browser';
@@ -184,10 +180,6 @@ export class SentryErrorHandler implements ErrorHandler {
         verticalPosition: 'bottom',
       } as MatSnackBarConfig,
     },
-    CustomersService,
-    CustomerEventsService,
-    BankAccountsService,
-    PaymentsService,
     { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
 })
