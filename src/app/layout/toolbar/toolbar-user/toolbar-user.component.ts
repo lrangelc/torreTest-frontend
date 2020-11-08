@@ -49,4 +49,8 @@ export class ToolbarUserComponent implements OnInit {
       this.router.navigate(['/login']);
     });
   }
+
+  appliedJobs() {
+    this.router.navigate(['/admin/appliedJobs']);
+  }
 }
