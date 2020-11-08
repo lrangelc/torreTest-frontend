@@ -95,13 +95,10 @@
               yPosition="below"
               xPosition="before"
             >
-              <button (click)="updateCustomer(row)" mat-menu-item>
+              <button (click)="applyJob(row)" mat-menu-item>
                 <mat-icon>edit</mat-icon>
-                Modify
+                Apply
               </button>
-              <!-- <button (click)="deleteCustomer(row)" mat-menu-item>
-                  <span>Delete</span>
-                </button> -->
               <button (click)="activateCustomer(row)" mat-menu-item>
                 <mat-icon class="material-icons color_green">wifi</mat-icon>
                 Activate temporarily

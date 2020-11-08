@@ -21,6 +21,7 @@ import { handleHttpResponseError } from './../../../utils/handleHttpResponseErro
 import { JobsService } from 'src/app/shared/services/jobs.service';
 import { Job } from 'src/app/models/job.model';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'fury-jobs',
@@ -95,6 +96,7 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private router: Router,
     private customersService: CustomersService,
     private dialog: MatDialog,
     private customerEventsService: CustomerEventsService,
@@ -130,10 +132,23 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers = customers;
         this.dataSource.data = customers;
       }, catchError(handleHttpResponseError));
+      // this.doSomething();
     } catch (err) {
       handleHttpResponseError(err);
     }
   }
+
+  // async doSomething() {
+  //   const user = await this.authService.isLoggedIn();
+  //   if (user) {
+  //     // do something
+  //     this.user = user;
+  //     this.sidenavUserVisible$ = true;
+  //   } else {
+  //     // do something else
+  //     this.sidenavUserVisible$ = false;
+  //   }
+  // }
 
   async onSearchTermChange(): Promise<void> {
     const skills = this.skills || [];
@@ -235,42 +250,67 @@ export class JobsComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
   }
 
-  updateCustomer(customer2: any) {
-    // try {
-    //   this.dialog
-    //     .open(CustomerCreateUpdateComponent, {
-    //       data: customer2,
-    //     })
-    //     .afterClosed()
-    //     .subscribe((customer) => {
-    //       if (customer) {
-    //         const index = this.customers.findIndex(
-    //           (existingCustomer) => existingCustomer.id === customer.id
-    //         );
-    //         this.customers[index] = new Customer(customer);
-    //         this.subject$.next(this.customers);
-    //         this.customersService.updateCustomer2(this.user.uid, customer.id, {
-    //           taxId: customer.taxId,
-    //           taxName: customer.taxName,
-    //           name: customer.name,
-    //           email: customer.email,
-    //           generateInvoice: customer.generateInvoice,
-    //           serviceCost: customer.serviceCost,
-    //           dateOfService: customer.dateOfService,
-    //           ip: customer.ip,
-    //           MB: customer.MB,
-    //           phone: customer.phone,
-    //           address: customer.address,
-    //           instalationDate: customer.instalationDate,
-    //           comments: customer.comments,
-    //           mainRouterID: customer.mainRouterID,
-    //           mainRouterName: customer.mainRouterName,
-    //         });
-    //       }
-    //     }, catchError(handleHttpResponseError));
-    // } catch (err) {
-    //   handleHttpResponseError(err);
-    // }
+  applyJob(job: any) {
+    console.log(job);
+    try {
+      if (this.user) {
+        let minAmount = 0;
+        let maxAmount = 0;
+        let currency = 'USD$';
+
+        const skillX = job.skills.map((a) => a.name + ' ');
+        const organizationX = job.organizations.map((a) => a.name + ' ');
+        if (job.compensation.data) {
+          minAmount = job.compensation.data.minAmount || 0;
+          maxAmount = job.compensation.data.maxAmount || 0;
+          currency = job.compensation.data.currency || 'USD$';
+        }
+
+        this.jobsService.applyJob(this.user.uid, job.id, {
+          objective: job.objective,
+          organizationX: organizationX,
+          skillX: skillX,
+          currency: currency,
+          minAmount: minAmount,
+          maxAmount: maxAmount,
+        });
+      } else {
+        this.router.navigate(['/login'], { queryParams: { jobID: job.id } });
+      }
+      // this.dialog
+      //   .open(CustomerCreateUpdateComponent, {
+      //     data: customer2,
+      //   })
+      //   .afterClosed()
+      //   .subscribe((customer) => {
+      //     if (customer) {
+      //       const index = this.customers.findIndex(
+      //         (existingCustomer) => existingCustomer.id === customer.id
+      //       );
+      //       this.customers[index] = new Customer(customer);
+      //       this.subject$.next(this.customers);
+      //       this.customersService.updateCustomer2(this.user.uid, customer.id, {
+      //         taxId: customer.taxId,
+      //         taxName: customer.taxName,
+      //         name: customer.name,
+      //         email: customer.email,
+      //         generateInvoice: customer.generateInvoice,
+      //         serviceCost: customer.serviceCost,
+      //         dateOfService: customer.dateOfService,
+      //         ip: customer.ip,
+      //         MB: customer.MB,
+      //         phone: customer.phone,
+      //         address: customer.address,
+      //         instalationDate: customer.instalationDate,
+      //         comments: customer.comments,
+      //         mainRouterID: customer.mainRouterID,
+      //         mainRouterName: customer.mainRouterName,
+      //       });
+      //     }
+      //   }, catchError(handleHttpResponseError));
+    } catch (err) {
+      handleHttpResponseError(err);
+    }
   }
 
   deleteCustomer(customer: any) {
