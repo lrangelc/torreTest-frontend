@@ -56,4 +56,8 @@ export class RegisterComponent implements OnInit {
       this.cd.markForCheck();
     }
   }
+
+  home() {
+    this.router.navigate(['/']);
+  }
 }

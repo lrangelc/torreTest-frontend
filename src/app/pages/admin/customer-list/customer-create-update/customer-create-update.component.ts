@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FaLayersTextComponent } from '@fortawesome/angular-fontawesome';
 import * as moment from 'moment';
 import { handleHttpResponseError } from 'src/app/utils/handleHttpResponseError';
 import { Customer } from './customer.model';
