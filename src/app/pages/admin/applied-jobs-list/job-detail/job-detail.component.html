@@ -1,0 +1,52 @@
+<div mat-dialog-title>Job Opportunity</div>
+
+<form [formGroup]="form">
+  <mat-dialog-content>
+    <div class="person">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Id</mat-label>
+          <input type="text" formControlName="id" matInput />
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>Objective</mat-label>
+          <input type="text" formControlName="objective" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Organization</mat-label>
+        <input type="text" formControlName="organization" matInput />
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Location</mat-label>
+        <input type="text" formControlName="location" matInput />
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Currency</mat-label>
+        <input type="text" formControlName="currency" matInput />
+      </mat-form-field>
+
+      <mat-form-field fxFlex>
+        <mat-label>Min Amount</mat-label>
+        <input type="number" formControlName="minAmount" matInput />
+      </mat-form-field>
+
+      <mat-form-field fxFlex>
+        <mat-label>Max Amount</mat-label>
+        <input type="number" formControlName="maxAmount" matInput />
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  </mat-dialog-actions>
+</form>

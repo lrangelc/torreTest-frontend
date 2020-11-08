@@ -16,6 +16,10 @@
           <mat-icon class="list-item-icon">account_circle</mat-icon>
           <span>Profile</span>
         </div>
+        <div class="list-item" matRipple  (click)="appliedJobs()">
+          <mat-icon class="list-item-icon">add_task</mat-icon>
+          <span>Applied Jobs</span>
+        </div>
         <div class="list-item" matRipple>
           <mat-icon class="list-item-icon">settings</mat-icon>
           <span>Settings</span>
@@ -25,7 +29,7 @@
           <span>Help</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="list-item" matRipple  (click)="logout()">
+        <div class="list-item" matRipple (click)="logout()">
           <mat-icon class="list-item-icon">exit_to_app</mat-icon>
           <span>Logout</span>
         </div>

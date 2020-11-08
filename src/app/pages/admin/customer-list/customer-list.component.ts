@@ -40,16 +40,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   columns: ListColumn[] = [
-    // { name: 'Checkbox', property: 'checkbox', visible: false },
-    // { name: 'Image', property: 'image', visible: false },
-    // { name: 'Name', property: 'name', visible: true, isModelProperty: true },
-    // {
-    //   name: 'First Name',
-    //   property: 'taxId',
-    //   visible: true,
-    //   isModelProperty: true,
-    // },
-
     {
       name: 'Tax Id',
       property: 'taxId',
@@ -86,25 +76,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
       visible: true,
       isModelProperty: true,
     },
-    // {
-    //   name: 'Street',
-    //   property: 'comments',
-    //   visible: false,
-    //   isModelProperty: true,
-    // },
-    // {
-    //   name: 'Zipcode',
-    //   property: 'email',
-    //   visible: false,
-    //   isModelProperty: true,
-    // },
-    // { name: 'City', property: 'seller', visible: false, isModelProperty: true },
-    // {
-    //   name: 'Phone',
-    //   property: 'phone',
-    //   visible: false,
-    //   isModelProperty: true,
-    // },
     { name: 'Actions', property: 'actions', visible: true },
   ] as ListColumn[];
   pageSize = 10;
@@ -126,16 +97,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.businessID = localStorage.getItem('businessID');
       this.user = this.authService.getUser();
       this.getCustomers();
-
-      // this.customersService.getCustomers().subscribe((res) => {
-      //   return this.subject$.next(res);
-      // });
-
-      // this.getData().subscribe((customers) => {
-      //   console.log('customers');
-      //   console.log(customers);
-      //   this.subject$.next(customers);
-      // });
 
       this.dataSource = new MatTableDataSource();
 
